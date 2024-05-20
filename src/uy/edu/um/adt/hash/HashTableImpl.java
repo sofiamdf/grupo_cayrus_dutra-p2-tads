@@ -1,6 +1,6 @@
 package uy.edu.um.adt.hash;
 
-public class HashTableImpl implements HashTable<K, V> {
+/*public class HashTableImpl implements HashTable<K, V> {
 
     @Override
     public void put(K key, V value) {
@@ -17,3 +17,4 @@ public class HashTableImpl implements HashTable<K, V> {
 
     }
 }
+ */
