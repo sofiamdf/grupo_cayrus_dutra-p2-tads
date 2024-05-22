@@ -42,13 +42,30 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
         }
     }
 
-//    @Override
-//    public boolean contains(K key) { // se fija si la clave existe y retorna true o false
-//        return false;
-//    }
-//
-//    @Override
-//    public void remove(K key) { // remueve un elemento con una key dada
-//
-//    }
+    @Override
+    public boolean contains(K key) throws FullArrayException {
+        HashNode<K,V> newHash = new HashNode<>(key,null);
+        int bucket = getBucketPosition(key);
+        int initialBucket = bucket;
+        while ( myArray.get(bucket) != null && !myArray.get(bucket).equals(key)) {
+            bucket = (bucket + 1) % maxBuckets;
+            if (bucket == initialBucket) {
+                throw new FullArrayException();
+            }
+        }
+        return myArray.get(bucket).equals(newHash);
+    }
+
+    @Override
+    public void remove(K key) throws FullArrayException {
+        int bucket = getBucketPosition(key);
+        int initialBucket = bucket;
+        while (!myArray.get(bucket).equals(key)) {
+            bucket = (bucket + 1) % maxBuckets;
+            if (bucket == initialBucket) {
+                throw new FullArrayException();
+            }
+        }
+        myArray.remove(bucket);
+    }
 }
