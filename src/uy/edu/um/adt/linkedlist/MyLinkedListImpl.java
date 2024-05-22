@@ -23,14 +23,15 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStack<T> {
         if (value != null) {
             Node<T> elementToAdd = new Node<>(value);
 
-            if (this.first == null) { // si la lista esta vacia
+            if (this.first == null) { // si la lista es vacia
                 this.first = elementToAdd;
                 this.last = elementToAdd;
-            } else { // si no es vacia se agrega al inicio
+            } else { // en caso de no ser vacia se agrega al comienzo
                 elementToAdd.setNext(this.first);
                 this.first = elementToAdd;
             }
         } else {
+            // si el elemento es vacio se ignora
         }
     }
 
@@ -38,14 +39,15 @@ public class MyLinkedListImpl<T> implements MyList<T>, MyQueue<T>, MyStack<T> {
         if (value != null) {
             Node<T> elementToAdd = new Node<>(value);
 
-            if (this.first == null) { // si la lista esta vacia
+            if (this.first == null) { // si la lista es vacia
                 this.first = elementToAdd;
                 this.last = elementToAdd;
-            } else { // si no esta vacia se agrega al final
+            } else { // en caso de no ser vacia se agrega al final
                 this.last.setNext(elementToAdd);
                 this.last = elementToAdd;
             }
         } else {
+            // si el elemento es vacio se ignora
         }
     }
 
