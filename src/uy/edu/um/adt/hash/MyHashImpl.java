@@ -40,11 +40,28 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
             myArray.set(bucket, newHash);
             size++;
         }
+        /*
+        if ((1.0 * size) / maxBuckets >= 0.7) {
+            List<HashNode<K, V>> temp = myArray;
+            myArray = new ArrayList<>();
+            maxBuckets = 2 * maxBuckets;
+            size = 0;
+            for (int i = 0; i < maxBuckets; i++) {
+                myArray.add(null);
+            }
+            for (HashNode<K, V> headNode : temp) {
+                while (headNode != null) {
+                    put(headNode.getKey(), headNode.getValue()); // no tenemos headnode!
+                    headNode = headNode.getNext();
+                }
+            }
+
+         */
     }
 
     @Override
     public boolean contains(K key) {
-        HashNode<K,V> newHash = new HashNode<>(key,null);
+        HashNode<K,V> newHash = new HashNode<>(key, null);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
         while (myArray.get(bucket) != null && !myArray.get(bucket).equals(newHash)) {
@@ -53,7 +70,8 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
                 return false;
             }
         }
-        return myArray.get(bucket).equals(newHash);
+        return myArray.get(bucket).equals(newHash); // esto considera cuando el bucket es null
+                                                    // y cuando las keys son iguales? o que
     }
 
     @Override
@@ -124,8 +142,9 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
         return size;
     }
 
-     */
 
     @Override
-    public void resize
+    public void resize (lo puse comentado en el push con la
+            forma de chatgpt, despues lo miramos)
+    */
 }
