@@ -43,29 +43,89 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
     }
 
     @Override
-    public boolean contains(K key) throws FullArrayException {
+    public boolean contains(K key) throws EntidadNoExiste {
         HashNode<K,V> newHash = new HashNode<>(key,null);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
-        while ( myArray.get(bucket) != null && !myArray.get(bucket).equals(key)) {
+        while (myArray.get(bucket) != null && !myArray.get(bucket).equals(newHash)) {
             bucket = (bucket + 1) % maxBuckets;
             if (bucket == initialBucket) {
-                throw new FullArrayException();
+                return false;
             }
         }
         return myArray.get(bucket).equals(newHash);
     }
 
     @Override
-    public void remove(K key) throws FullArrayException {
+    public void remove(K key) throws EntidadNoExiste {
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
-        while (!myArray.get(bucket).equals(key)) {
-            bucket = (bucket + 1) % maxBuckets;
-            if (bucket == initialBucket) {
-                throw new FullArrayException();
+        if (myArray.get(bucket) != null) {
+            while (!myArray.get(bucket).equals(key)) {
+                bucket = (bucket + 1) % maxBuckets;
+                if (bucket == initialBucket) {
+                    throw new EntidadNoExiste();
+                }
+            }
+            myArray.remove(bucket);
+            size--;
+            int nextBucket = bucket + 1;
+            int secondInitialBucket = bucket;
+            while (getBucketPosition((myArray.get(nextBucket).getKey())) == initialBucket){
+                myArray.set(bucket, myArray.get(nextBucket));
+                nextBucket = (nextBucket + 1) % maxBuckets;
+                bucket = (bucket +1) % maxBuckets;
+                if (nextBucket == secondInitialBucket) {
+                    throw new EntidadNoExiste();
+                }
+
+            }
+        } else {
+            System.out.println("El bucket asignado es nulo");
+        }
+    }
+    /*
+    public V remove(K key) {
+        int bucketIndex = getBucketIndex(key);
+        int originalIndex = bucketIndex;
+
+        // 1. Encontrar el nodo con la clave especificada
+        while (bucketArray[bucketIndex] != null) {
+            if (bucketArray[bucketIndex].getKey().equals(key)) {
+                // 2. Guardar el valor para devolverlo
+                V value = bucketArray[bucketIndex].getValue();
+
+                // 3. Eliminar el nodo encontrado
+                bucketArray[bucketIndex] = null;
+                size--;
+
+                // 4. Reorganizar los nodos desplazados por colisiones
+                bucketIndex = (bucketIndex + 1) % numBuckets;
+                while (bucketArray[bucketIndex] != null) {
+                    HashNode<K, V> nodeToRehash = bucketArray[bucketIndex];
+                    bucketArray[bucketIndex] = null;
+                    size--;
+                    put(nodeToRehash.getKey(), nodeToRehash.getValue());
+                    bucketIndex = (bucketIndex + 1) % numBuckets;
+                }
+
+                return value;
+            }
+            bucketIndex = (bucketIndex + 1) % numBuckets;
+            if (bucketIndex == originalIndex) {
+                // Hemos dado la vuelta completa y no encontramos la clave
+                return null;
             }
         }
-        myArray.remove(bucket);
+        return null;
     }
+
+    public int size() {
+        return size;
+    }
+
+     */
+
+    @Override
+    public void resize
 }
