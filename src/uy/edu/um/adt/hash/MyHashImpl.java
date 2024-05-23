@@ -43,7 +43,7 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
     }
 
     @Override
-    public boolean contains(K key) throws EntidadNoExiste {
+    public boolean contains(K key) {
         HashNode<K,V> newHash = new HashNode<>(key,null);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
