@@ -1,67 +1,64 @@
 package uy.edu.um.adt.stack;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import uy.edu.um.adt.linkedlist.MyLinkedListImpl;
 
-public class StackImplTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-	@Test
-	public void testFlujoCompleto() {
-		MyStack<Integer> colStack = new MyLinkedListImpl<>();
-		
-		colStack.push(new Integer(2));
-		colStack.push(new Integer(4));
-		colStack.push(new Integer(7));
+class StackImplTest {
+    @Test
+    public void testFlujoCompleto() {
+        MyStack<Integer> colStack = new MyLinkedListImpl<>();
 
-		assertEquals(new Integer(7), colStack.peek());
+        colStack.push(2);
+        colStack.push(4);
+        colStack.push(7);
 
-		try {
+        assertEquals(7, colStack.peek());
 
-			assertEquals(new Integer(7), colStack.pop());
+        try {
 
-		} catch (EmptyStackException e) {
+            assertEquals(7, colStack.pop());
 
-			fail(e.getMessage());
+        } catch (EmptyStackException e) {
 
-		}
+            fail(e.getMessage());
 
-		assertEquals(new Integer(4), colStack.peek());
+        }
 
-		try {
+        assertEquals(4, colStack.peek());
 
-			assertEquals(new Integer(4), colStack.pop());
+        try {
 
-		} catch (EmptyStackException e) {
+            assertEquals(4, colStack.pop());
 
-			fail(e.getMessage());
+        } catch (EmptyStackException e) {
 
-		}
+            fail(e.getMessage());
 
-		try {
+        }
 
-			assertEquals(new Integer(2), colStack.pop());
+        try {
 
-		} catch (EmptyStackException e) {
+            assertEquals(2, colStack.pop());
 
-			fail(e.getMessage());
+        } catch (EmptyStackException e) {
 
-		}
-		try {
-			
-			colStack.pop();
-			
-			fail("El stack deberia estar vacio");
+            fail(e.getMessage());
 
-		} catch (EmptyStackException e) {
-			
-			assertTrue(true);
+        }
+        try {
 
-		}
-	}
+            colStack.pop();
+
+            fail("El stack deberia estar vacio");
+
+        } catch (EmptyStackException e) {
+
+            assertTrue(true);
+
+        }
+    }
+
 
 }

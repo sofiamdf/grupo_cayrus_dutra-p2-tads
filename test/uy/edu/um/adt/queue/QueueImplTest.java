@@ -1,45 +1,43 @@
 package uy.edu.um.adt.queue;
 
-import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import uy.edu.um.adt.linkedlist.MyLinkedListImpl;
 
-public class QueueImplTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-	@Test
-	public void testFlujoCompleto() {
-		MyQueue<Integer> queue = new MyLinkedListImpl<>();
-		
-		queue.enqueue(new Integer(21));
-		queue.enqueue(new Integer(34));
-		queue.enqueue(new Integer(3));
+class QueueImplTest {
+    @Test
+    public void testFlujoCompleto() {
+        MyQueue<Integer> queue = new MyLinkedListImpl<>();
+
+        queue.enqueue(21);
+        queue.enqueue(34);
+        queue.enqueue(3);
 
         assertTrue(queue.contains(21));
         assertEquals(3, queue.size());
 
-		try {
+        try {
 
-			assertEquals(new Integer(21), queue.dequeue());
+            assertEquals(21, queue.dequeue());
 
-		} catch (EmptyQueueException e) {
+        } catch (EmptyQueueException e) {
 
-			fail(e.getMessage());
+            fail(e.getMessage());
 
-		}
+        }
 
         assertFalse(queue.contains(21));
 
-		assertEquals(2, queue.size());
-		
-		assertTrue(queue.contains(34));
-		
-		assertFalse(queue.contains(18));
+        assertEquals(2, queue.size());
+
+        assertTrue(queue.contains(34));
+
+        assertFalse(queue.contains(18));
 
         try {
 
-            assertEquals(new Integer(34), queue.dequeue());
+            assertEquals(34, queue.dequeue());
 
         } catch (EmptyQueueException e) {
 
@@ -49,7 +47,7 @@ public class QueueImplTest {
 
         try {
 
-            assertEquals(new Integer(3), queue.dequeue());
+            assertEquals(3, queue.dequeue());
 
         } catch (EmptyQueueException e) {
 
@@ -67,6 +65,5 @@ public class QueueImplTest {
             assertTrue(true);
 
         }
-	}
-
+    }
 }

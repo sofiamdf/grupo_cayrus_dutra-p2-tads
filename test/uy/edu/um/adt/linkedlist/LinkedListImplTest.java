@@ -1,11 +1,10 @@
 package uy.edu.um.adt.linkedlist;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class LinkedListImplTest {
-
+class LinkedListImplTest {
     @Test
     public void testFlujoCompleto() {
 
@@ -18,9 +17,9 @@ public class LinkedListImplTest {
 
         assertEquals(4, list.size());
 
-        assertEquals(new Integer(4), list.get(0));
+        assertEquals(4, list.get(0));
 
-        assertEquals(new Integer(2), list.get(3));
+        assertEquals(2, list.get(3));
 
         assertTrue(list.contains(5));
 
@@ -38,7 +37,7 @@ public class LinkedListImplTest {
 
         assertNull(list.get(2));
 
-        assertEquals(new Integer(5), list.get(0));
+        assertEquals(5, list.get(0));
 
 
     }
