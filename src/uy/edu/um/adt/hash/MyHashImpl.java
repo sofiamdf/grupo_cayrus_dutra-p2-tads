@@ -70,8 +70,7 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
                 return false;
             }
         }
-        return myArray.get(bucket).equals(newHash); // esto considera cuando el bucket es null
-                                                    // y cuando las keys son iguales? o que
+        return myArray.get(bucket).equals(newHash);
     }
 
     @Override
