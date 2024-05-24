@@ -1,15 +1,58 @@
 package uy.edu.um.adt.hash;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import uy.edu.um.adt.linkedlist.MyList;
 
-import static org.testng.AssertJUnit.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-/*class HashImplTest {
-    @Test
-    public void test {
+class HashImplTest<K,V> {
 
+
+    private MyHash<Integer, String> newHash;
+
+    @BeforeEach
+    void setUp() {
+        newHash = new MyHashImpl<>();
     }
 
- */
+    @Test
+    void testPut() throws FullArrayException, EntidadNoExiste {
+        newHash.put(1, "A");
+        newHash.put(2, "B");
+        assertTrue(newHash.contains(1)); // Check if A was placed in the list
+        newHash.put(1,"C"); // check that it changes values
+    }
+
+    @Test
+    void testContains() throws FullArrayException{
+        // Add elements to the hash table
+        newHash.put(1, "A");
+        newHash.put(2, "B");
+
+        // Assert that the contains method returns true for existing keys
+        assertTrue(newHash.contains(1)); // Check if key 1 exists
+        assertTrue(newHash.contains(2)); // Check if key 2 exists
+
+        // Assert that the contains method returns false for non-existing key
+        assertFalse(newHash.contains(3)); // Check if key 3 doesn't exist
+    }
+
+    @Test
+    void testRemove() throws FullArrayException, EntidadNoExiste {
+        // Add elements to the hash table
+        newHash.put(1, "A");
+        newHash.put(2, "B");
+
+        // Remove an existing key
+        newHash.remove(1);
+
+        // Assert that the removed key is no longer present
+        assertFalse(newHash.contains(1)); // Check if key 1 doesn't exist anymore
+
+    }
+}
+
+
+
+
 

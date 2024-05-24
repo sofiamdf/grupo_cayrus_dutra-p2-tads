@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MyHashImpl<K,V> implements MyHash<K, V> {
 
-    private ArrayList<HashNode<K,V>> myArray;
+    private ArrayList<HashNode<K, V>> myArray;
     private int maxBuckets;
     private int size;
 
@@ -13,7 +13,7 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
         maxBuckets = 13; //numero inicial de buckets(
         size = 0;
 
-        for (int i = 0; i < maxBuckets; i++){
+        for (int i = 0; i < maxBuckets; i++) {
             myArray.add(null);
         }
     }
@@ -25,43 +25,43 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
 
     @Override
     public void put(K key, V value) throws FullArrayException {
-        HashNode<K,V> newHash = new HashNode<>(key,value);
+        HashNode<K, V> newHash = new HashNode<>(key, value);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
-        while ( myArray.get(bucket) != null && !myArray.get(bucket).equals(key)) {
+        while (myArray.get(bucket) != null && !myArray.get(bucket).equals(newHash)) {
             bucket = (bucket + 1) % maxBuckets;
             if (bucket == initialBucket) {
                 throw new FullArrayException();
             }
         }
-        if(myArray.get(bucket).equals(key)) {
+        if (myArray.get(bucket) != null && myArray.get(bucket).equals(newHash)) {
+            System.out.printf("value " + myArray.get(bucket).getValue() + " changed to " + newHash.getValue() + "\n");
             myArray.get(bucket).setValue(value);
         } else {
             myArray.set(bucket, newHash);
+            System.out.printf(newHash.getValue() + " added " + "\n");
             size++;
         }
-        /*
+
         if ((1.0 * size) / maxBuckets >= 0.7) {
-            List<HashNode<K, V>> temp = myArray;
+            ArrayList<HashNode<K, V>> temp = myArray;
             myArray = new ArrayList<>();
             maxBuckets = 2 * maxBuckets;
             size = 0;
             for (int i = 0; i < maxBuckets; i++) {
                 myArray.add(null);
             }
-            for (HashNode<K, V> headNode : temp) {
-                while (headNode != null) {
-                    put(headNode.getKey(), headNode.getValue()); // no tenemos headnode!
-                    headNode = headNode.getNext();
+            for (HashNode<K, V> node : temp) {
+                if (node != null) {
+                    put(node.getKey(), node.getValue());
                 }
             }
-
-         */
+        }
     }
 
     @Override
     public boolean contains(K key) {
-        HashNode<K,V> newHash = new HashNode<>(key, null);
+        HashNode<K, V> newHash = new HashNode<>(key, null);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
         while (myArray.get(bucket) != null && !myArray.get(bucket).equals(newHash)) {
@@ -70,30 +70,36 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
                 return false;
             }
         }
-        return myArray.get(bucket).equals(newHash);
+        if (myArray.get(bucket) == null){
+            return false;
+        }
+        else {
+            return myArray.get(bucket).equals(newHash);
+        }
     }
 
     @Override
-    public void remove(K key) throws EntidadNoExiste {
+    public void remove(K key) throws EntidadNoExiste, FullArrayException {
+        HashNode<K, V> newHash = new HashNode<>(key, null);
         int bucket = getBucketPosition(key);
         int initialBucket = bucket;
         if (myArray.get(bucket) != null) {
-            while (!myArray.get(bucket).equals(key)) {
+            while (myArray.get(bucket) != null && !myArray.get(bucket).equals(newHash)) {
                 bucket = (bucket + 1) % maxBuckets;
                 if (bucket == initialBucket) {
                     throw new EntidadNoExiste();
                 }
             }
             myArray.remove(bucket);
-            size--;
-            int nextBucket = bucket + 1;
-            int secondInitialBucket = bucket;
-            while (getBucketPosition((myArray.get(nextBucket).getKey())) == initialBucket){
-                myArray.set(bucket, myArray.get(nextBucket));
-                nextBucket = (nextBucket + 1) % maxBuckets;
-                bucket = (bucket +1) % maxBuckets;
-                if (nextBucket == secondInitialBucket) {
-                    throw new EntidadNoExiste();
+            ArrayList<HashNode<K, V>> temp = myArray;
+            myArray = new ArrayList<>();
+            size = 0;
+            for (int i = 0; i < maxBuckets; i++) {
+                myArray.add(null);
+            }
+            for (HashNode<K, V> node : temp) {
+                if (node != null) {
+                    put(node.getKey(), node.getValue());
                 }
 
             }
@@ -101,49 +107,21 @@ public class MyHashImpl<K,V> implements MyHash<K, V> {
             System.out.println("El bucket asignado es nulo");
         }
     }
-    /*
-    public V remove(K key) {
-        int bucketIndex = getBucketIndex(key);
-        int originalIndex = bucketIndex;
-
-        // 1. Encontrar el nodo con la clave especificada
-        while (bucketArray[bucketIndex] != null) {
-            if (bucketArray[bucketIndex].getKey().equals(key)) {
-                // 2. Guardar el valor para devolverlo
-                V value = bucketArray[bucketIndex].getValue();
-
-                // 3. Eliminar el nodo encontrado
-                bucketArray[bucketIndex] = null;
-                size--;
-
-                // 4. Reorganizar los nodos desplazados por colisiones
-                bucketIndex = (bucketIndex + 1) % numBuckets;
-                while (bucketArray[bucketIndex] != null) {
-                    HashNode<K, V> nodeToRehash = bucketArray[bucketIndex];
-                    bucketArray[bucketIndex] = null;
-                    size--;
-                    put(nodeToRehash.getKey(), nodeToRehash.getValue());
-                    bucketIndex = (bucketIndex + 1) % numBuckets;
-                }
-
-                return value;
-            }
-            bucketIndex = (bucketIndex + 1) % numBuckets;
-            if (bucketIndex == originalIndex) {
-                // Hemos dado la vuelta completa y no encontramos la clave
-                return null;
-            }
-        }
-        return null;
-    }
-
-    public int size() {
-        return size;
-    }
 
 
     @Override
-    public void resize (lo puse comentado en el push con la
-            forma de chatgpt, despues lo miramos)
-    */
+    public void resize(int newMaxBuckets) throws FullArrayException {
+        ArrayList<HashNode<K, V>> temp = myArray;
+        myArray = new ArrayList<>();
+        maxBuckets = newMaxBuckets;
+        size = 0;
+        for (int i = 0; i < maxBuckets; i++) {
+            myArray.add(null);
+        }
+        for (HashNode<K, V> node : temp) {
+            if (node != null) {
+                put(node.getKey(), node.getValue());
+            }
+        }
+    }
 }
