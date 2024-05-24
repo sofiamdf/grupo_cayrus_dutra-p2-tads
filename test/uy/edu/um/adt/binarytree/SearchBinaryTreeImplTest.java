@@ -1,111 +1,95 @@
 package uy.edu.um.adt.binarytree;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import uy.edu.um.adt.hash.HashNode;
 import uy.edu.um.adt.linkedlist.MyList;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SearchBinaryTreeImplTest {
-    @Test
-    public void testAddFlujoNormal() {
-        MySearchBinaryTree<Integer, Integer> oTree = new MySearchBinaryTreeImpl<>();
+    private MySearchBinaryTree<Integer, Integer> newTree;
 
-        oTree.add(3, 3);
-        oTree.add(21, 21);
-        oTree.add(11, 11);
-        oTree.add(-1, -1);
-        oTree.add(4, 4);
-        oTree.add(18, 18);
-
-        MyList<Integer> colValues = oTree.inOrder();
-
-        assertEquals(-1, colValues.get(0));
-        assertEquals(3, colValues.get(1));
-        assertEquals(4, colValues.get(2));
-        assertEquals(11, colValues.get(3));
-        assertEquals(18, colValues.get(4));
-        assertEquals(21, colValues.get(5));
+    @BeforeEach
+    public void setUp() {
+        newTree = new MySearchBinaryTreeImpl<>();
     }
 
     @Test
-    public void testRemoveFlujoNormal() {
-        MySearchBinaryTree<Integer, Integer> oTree = new MySearchBinaryTreeImpl<>();
+    public void addTest() {
+        newTree.add(1, 1);
+        newTree.add(5, 5);
+        newTree.add(3, 3);
+        newTree.add(2, 2);
 
-        oTree.add(3, 3);
-        oTree.add(21, 21);
-        oTree.add(11, 11);
-        oTree.add(-1, -1);
-        oTree.add(4, 4);
-        oTree.add(18, 18);
-
-        oTree.remove(3);
-        oTree.remove(-1);
-        oTree.remove(18);
-
-        MyList<Integer> colValues = oTree.inOrder();
-
-        assertEquals(4, colValues.get(0));
-        assertEquals(11, colValues.get(1));
-        assertEquals(21, colValues.get(2));
-    }
-
-    @Test
-    public void testRemoveFlujoParticular() {
-        MySearchBinaryTree<Integer, Integer> oTree = new MySearchBinaryTreeImpl<>();
-
-        oTree.add(3, 3);
-        oTree.add(-1, -1);
-        oTree.add(4, 4);
-        oTree.add(18, 18);
-
-        oTree.remove(3);
-        oTree.remove(-1);
-        oTree.remove(18);
-        oTree.remove(4);
-
-        MyList<Integer> colValues = oTree.inOrder();
-
-        assertEquals(0, colValues.size());
-    }
-
-    @Test
-    public void testFindFlujoNormal() {
-        MySearchBinaryTree<Integer, Integer> oTree = new MySearchBinaryTreeImpl<>();
-
-        oTree.add(3, 3);
-        oTree.add(21, 21);
-        oTree.add(11, 11);
-        oTree.add(-1, -1);
-        oTree.add(4, 4);
-        oTree.add(18, 18);
-
-        oTree.remove(3);
-        oTree.remove(-1);
-        oTree.remove(18);
-
-        Integer oTemp = oTree.find(3);
-
-        assertNull(oTemp);
-
-        oTemp = oTree.find(21);
-// used to be new Integer(21)
-        assertEquals(21, oTemp);
+        MyList<Integer> orderedList = newTree.inOrder();
+        assertEquals(1, orderedList.get(0));
+        assertEquals(2, orderedList.get(1));
+        assertEquals(3, orderedList.get(2));
+        assertEquals(5, orderedList.get(3));
 
     }
 
     @Test
-    public void testContainFlujoNormal() {
-        MySearchBinaryTree<Integer, Integer> oTree = new MySearchBinaryTreeImpl<>();
+    public void testRemove() {
+        newTree.add(1, 1);
+        newTree.add(5, 5);
+        newTree.add(3, 3);
+        newTree.add(2, 2);
 
-        oTree.add(3, 3);
-        oTree.add(21, 21);
-        oTree.add(11, 11);
-        oTree.add(-1, -1);
-        oTree.add(4, 4);
-        oTree.add(18, 18);
+        newTree.remove(2);
+        newTree.remove(1);
 
-        assertFalse(oTree.contains(33));
-        assertTrue(oTree.contains(-1));
+        MyList<Integer> orderedList = newTree.inOrder();
+
+        assertEquals(3, orderedList.get(0));
+        assertEquals(5, orderedList.get(1));
     }
 
+    @Test
+    public void testRemoveSize() {
+        newTree.add(3, 3);
+        newTree.add(-1, -1);
+        newTree.add(4, 4);
+
+        newTree.remove(3);
+        newTree.remove(-1);
+        newTree.remove(4);
+
+        MyList<Integer> orderedList = newTree.inOrder();
+        assertEquals(0, orderedList.size());
+    }
+
+    @Test
+    public void testFind() {
+        newTree.add(3, 3);
+        newTree.add(21, 21);
+        newTree.add(11, 11);
+        newTree.add(-1, -1);
+        newTree.add(4, 4);
+
+        newTree.remove(3);
+        newTree.remove(-1);
+
+        Integer number = newTree.find(3);
+        assertNull(number);
+
+        number = newTree.find(21);
+        assertEquals(21, number);
+    }
+
+    @Test
+    public void testContains() {
+        newTree.add(3, 3);
+        newTree.add(21, 21);
+        newTree.add(11, 11);
+        newTree.add(-1, -1);
+        newTree.add(4, 4);
+
+        assertFalse(newTree.contains(33));
+        assertTrue(newTree.contains(-1));
+    }
 }
+

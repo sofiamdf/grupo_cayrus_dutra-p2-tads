@@ -1,69 +1,45 @@
 package uy.edu.um.adt.queue;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uy.edu.um.adt.linkedlist.MyLinkedListImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QueueImplTest {
+    private MyQueue<Integer> newQueue;
+    @BeforeEach
+    void setUp() {
+        newQueue = new MyLinkedListImpl<>();
+    }
+
     @Test
-    public void testFlujoCompleto() {
-        MyQueue<Integer> queue = new MyLinkedListImpl<>();
+    public void enqueueAndSizeTest() {
+        newQueue.enqueue(20);
+        newQueue.enqueue(40);
+        newQueue.enqueue(10);
 
-        queue.enqueue(21);
-        queue.enqueue(34);
-        queue.enqueue(3);
+        assertTrue(newQueue.contains(20));
+        assertEquals(3, newQueue.size());
+    }
 
-        assertTrue(queue.contains(21));
-        assertEquals(3, queue.size());
-
-        try {
-
-            assertEquals(21, queue.dequeue());
-
-        } catch (EmptyQueueException e) {
-
-            fail(e.getMessage());
-
-        }
-
-        assertFalse(queue.contains(21));
-
-        assertEquals(2, queue.size());
-
-        assertTrue(queue.contains(34));
-
-        assertFalse(queue.contains(18));
+    @Test
+    public void dequeueTest() {
+        newQueue.enqueue(20);
+        newQueue.enqueue(40);
+        newQueue.enqueue(10);
 
         try {
-
-            assertEquals(34, queue.dequeue());
-
+            assertEquals(20, newQueue.dequeue());
+            assertEquals(40, newQueue.dequeue());
+            assertEquals(10, newQueue.dequeue());
         } catch (EmptyQueueException e) {
-
-            fail(e.getMessage());
-
+            throw new RuntimeException(e);
         }
+    }
 
-        try {
-
-            assertEquals(3, queue.dequeue());
-
-        } catch (EmptyQueueException e) {
-
-            fail(e.getMessage());
-
-        }
-
-        try {
-
-            queue.dequeue();
-
-            fail("Se espera excepcion");
-        } catch (EmptyQueueException e) {
-
-            assertTrue(true);
-
-        }
+    @Test
+    public void emptyQueueDequeueTest() {
+        assertThrows(EmptyQueueException.class, newQueue::dequeue);
     }
 }

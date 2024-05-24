@@ -1,45 +1,52 @@
 package uy.edu.um.adt.linkedlist;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedListImplTest {
+
+    private MyList<Integer> list;
+    @BeforeEach
+    public void setUp() {
+        list = new MyLinkedListImpl<>();
+    }
     @Test
-    public void testFlujoCompleto() {
+    public void testAdd() {
 
-        MyList<Integer> list = new MyLinkedListImpl<>();
-
-        list.add(4);
-        list.add(5);
-        list.add(7);
         list.add(2);
+        list.add(1);
+        list.add(5);
+        list.add(4);
 
         assertEquals(4, list.size());
-
-        assertEquals(4, list.get(0));
-
-        assertEquals(2, list.get(3));
-
-        assertTrue(list.contains(5));
-
-        assertFalse(list.contains(12));
-
-        list.remove(12); // si trata de eliminar un elemento que no existe deja la lista como esta
-
-        assertEquals(4, list.size());
-
-        list.remove(7);
-        list.remove(4);
-        list.remove(2);
-
-        assertEquals(1, list.size());
-
-        assertNull(list.get(2));
-
-        assertEquals(5, list.get(0));
-
-
+        assertEquals(2, list.get(0));
     }
 
+    @Test
+    public void testContains() {
+        list.add(2);
+        list.add(1);
+        list.add(5);
+        list.add(4);
+
+        assertTrue(list.contains(4));
+        assertFalse(list.contains(3));
+    }
+
+    @Test
+    public void testRemove() {
+        list.add(2);
+        list.add(1);
+        list.add(5);
+        list.add(4);
+
+        list.remove(6);
+        assertEquals(4, list.size());
+
+        list.remove(2);
+        assertEquals(3, list.size());
+    }
 }

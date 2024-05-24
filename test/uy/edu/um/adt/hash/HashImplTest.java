@@ -16,15 +16,15 @@ class HashImplTest<K,V> {
     }
 
     @Test
-    void testPut() throws FullArrayException, EntidadNoExiste {
+    void testPut() {
         newHash.put(1, "A");
         newHash.put(2, "B");
-        assertTrue(newHash.contains(1)); // Check if A was placed in the list
+        assertTrue(newHash.contains(1)); // check if A was placed in the list
         newHash.put(1,"C"); // check that it changes values
     }
 
     @Test
-    void testContains() throws FullArrayException{
+    void testContains(){
         // Add elements to the hash table
         newHash.put(1, "A");
         newHash.put(2, "B");
@@ -38,7 +38,7 @@ class HashImplTest<K,V> {
     }
 
     @Test
-    void testRemove() throws FullArrayException, EntidadNoExiste {
+    void testRemove() throws EntidadNoExiste {
         // Add elements to the hash table
         newHash.put(1, "A");
         newHash.put(2, "B");
@@ -49,6 +49,10 @@ class HashImplTest<K,V> {
         // Assert that the removed key is no longer present
         assertFalse(newHash.contains(1)); // Check if key 1 doesn't exist anymore
 
+        // Assert that EntidadNoExiste works
+        assertThrows(EntidadNoExiste.class, () -> {
+            newHash.remove(3);
+        });
     }
 }
 

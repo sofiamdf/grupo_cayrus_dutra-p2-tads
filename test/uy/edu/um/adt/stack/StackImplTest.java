@@ -1,64 +1,55 @@
 package uy.edu.um.adt.stack;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import uy.edu.um.adt.linkedlist.MyLinkedListImpl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StackImplTest {
+class StackImplTest{
+
+    private MyStack<Integer> newStack;
+
+    @BeforeEach
+    void setUp() {
+        newStack = new MyLinkedListImpl<>();
+    }
+
     @Test
-    public void testFlujoCompleto() {
-        MyStack<Integer> colStack = new MyLinkedListImpl<>();
+    public void pushAndPeekTest() {
+        newStack.push(2);
+        newStack.push(4);
+        newStack.push(7);
 
-        colStack.push(2);
-        colStack.push(4);
-        colStack.push(7);
+        assertEquals(7, newStack.peek());
+    }
 
-        assertEquals(7, colStack.peek());
-
-        try {
-
-            assertEquals(7, colStack.pop());
-
-        } catch (EmptyStackException e) {
-
-            fail(e.getMessage());
-
-        }
-
-        assertEquals(4, colStack.peek());
+    @Test
+    public void popTest() {
+        newStack.push(2);
+        newStack.push(4);
+        newStack.push(7);
 
         try {
-
-            assertEquals(4, colStack.pop());
-
+            assertEquals(7, newStack.pop());
+            assertEquals(4, newStack.pop());
+            assertEquals(2, newStack.pop());
         } catch (EmptyStackException e) {
-
-            fail(e.getMessage());
-
-        }
-
-        try {
-
-            assertEquals(2, colStack.pop());
-
-        } catch (EmptyStackException e) {
-
-            fail(e.getMessage());
-
-        }
-        try {
-
-            colStack.pop();
-
-            fail("El stack deberia estar vacio");
-
-        } catch (EmptyStackException e) {
-
-            assertTrue(true);
-
+            throw new RuntimeException(e);
         }
     }
 
+    @Test
+    public void emptyStackPeekTest() {
+        assertNull(newStack.peek());
+    }
 
+    @Test
+    public void emptyStackPopTest() {
+        assertThrows(EmptyStackException.class, newStack::pop);
+    }
 }
+
+
+

@@ -16,18 +16,13 @@ public class MySearchBinaryTreeImpl<K extends Comparable<K>, V> implements
         TreeNode<K, V> elementToAdd = new TreeNode<>(key, value);
 
         if (root == null) {
-
             root = elementToAdd;
-
         } else {
-
             root.add(key, value);
-
         }
     }
 
     public V find(K key) {
-
         return find(key, root);
     }
 
@@ -105,9 +100,7 @@ public class MySearchBinaryTreeImpl<K extends Comparable<K>, V> implements
         MyList<K> inOrderTraverse = new MyLinkedListImpl<>();
 
         if (root != null) {
-
             root.inOrderTraverse(inOrderTraverse);
-
         }
 
         return inOrderTraverse;
