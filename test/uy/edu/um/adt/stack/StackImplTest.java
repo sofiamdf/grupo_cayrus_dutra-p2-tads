@@ -23,6 +23,7 @@ class StackImplTest{
         newStack.push(7);
 
         assertEquals(7, newStack.peek());
+        assertEquals(3, newStack.size());
     }
 
     @Test
